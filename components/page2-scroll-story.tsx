@@ -934,7 +934,7 @@ function VerticalDockItem({
               className="font-semibold transition-[font-size] duration-200 ease-out"
               style={{ fontSize: `${resolvedIconSize * 0.24}px` }}
             >
-              {item.initial}
+              {(item as any).initial}
             </span>
           )}
         </a>
