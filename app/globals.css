@@ -20,6 +20,132 @@
   }
 }
 
+@keyframes text-word-reveal {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+  }
+
+  to {
+    filter: blur(0);
+    opacity: 1;
+  }
+}
+
+@keyframes education-card-enter {
+  from {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translateX(calc(-1 * clamp(44px, 8vw, 96px))) scale(0.96);
+  }
+
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes education-icon-enter {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+    transform: translateX(calc(-1 * clamp(32px, 6vw, 72px))) scale(0.88);
+  }
+
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes education-card-exit {
+  from {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    filter: blur(12px);
+    opacity: 0;
+    transform: translateX(calc(-1 * clamp(72px, 12vw, 150px))) scale(0.94);
+  }
+}
+
+@keyframes education-icon-exit {
+  from {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    filter: blur(10px);
+    opacity: 0;
+    transform: translateX(calc(-1 * clamp(56px, 9vw, 120px))) scale(0.84);
+  }
+}
+
+@keyframes active-label-flip {
+  from {
+    filter: blur(8px);
+    opacity: 0;
+    transform: translateY(12px) rotateX(-72deg);
+  }
+
+  to {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateY(0) rotateX(0deg);
+  }
+}
+
+@keyframes contact-pin-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes contact-pin-pulse {
+  0%,
+  100% {
+    opacity: 0.34;
+    transform: translateX(-50%) translateY(-50%) scale(1);
+  }
+
+  50% {
+    opacity: 0.62;
+    transform: translateX(-50%) translateY(-50%) scale(1.08);
+  }
+}
+
+@keyframes selected-circle-enter {
+  from {
+    transform: translateX(0) scale(1);
+  }
+
+  to {
+    transform: translateX(calc(-1 * var(--circle-travel-x, 0px))) scale(1);
+  }
+}
+
+@keyframes selected-circle-exit {
+  from {
+    transform: translateX(calc(-1 * var(--circle-travel-x, 0px))) scale(1);
+  }
+
+  to {
+    transform: translateX(0) scale(1);
+  }
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

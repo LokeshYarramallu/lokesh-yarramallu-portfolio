@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import type { AvatarTone } from "@/lib/portfolio-content";
 
 type CircleStackProps = {
@@ -9,6 +9,10 @@ type CircleStackProps = {
   avatarOverlap: string;
   avatarPrimary: string;
   avatarSecondary: string;
+  activeIndex?: number;
+  isClosingTrigger?: boolean;
+  isolateActive?: boolean;
+  onCircleClick?: (index: number) => void;
   stackShiftX: string;
   stackShiftY: string;
 };
@@ -16,37 +20,53 @@ type CircleStackProps = {
 function AvatarCircle({
   tone,
   index,
+  onCircleClick,
   total,
-  hoveredIndex,
-  setHoveredIndex,
+  activeIndex,
+  isClosingTrigger,
+  isIsolated,
+  isOpenTrigger,
 }: {
   tone: AvatarTone;
   index: number;
+  onCircleClick?: (index: number) => void;
   total: number;
-  hoveredIndex: number | null;
-  setHoveredIndex: (index: number | null) => void;
+  activeIndex: number;
+  isClosingTrigger: boolean;
+  isIsolated: boolean;
+  isOpenTrigger: boolean;
 }) {
-  const isFirst = index === 0;
-  const isHovered = hoveredIndex === index;
-  const shouldBlur = hoveredIndex !== null && !isHovered;
+  const isActive = index === activeIndex;
+  const hasGraduationCap = index === 0;
+  const shouldFadeForFocus = isIsolated && !isActive;
+  const shouldBlur = activeIndex >= 0 && !isActive && !shouldFadeForFocus;
   const hasImage = Boolean(tone.image);
 
   return (
-    <div
-      onMouseEnter={() => setHoveredIndex(index)}
-      onMouseLeave={() => setHoveredIndex(null)}
-      className={`relative aspect-square overflow-hidden rounded-full border border-[#050507] bg-[#0f1116]/85 backdrop-blur-xl transition-[transform,filter,opacity] duration-500 ease-in-out ${
-        shouldBlur ? "opacity-75" : "opacity-100"
+    <button
+      aria-label={tone.title ?? `Avatar ${index + 1}`}
+      onClick={() => onCircleClick?.(index)}
+      type="button"
+      className={`relative aspect-square overflow-hidden rounded-full border border-[#050507] bg-[#0f1116]/85 p-0 backdrop-blur-xl transition-[filter,opacity,width,box-shadow] duration-500 ease-in-out ${
+        shouldFadeForFocus ? "pointer-events-none opacity-0" : shouldBlur ? "opacity-75" : "opacity-100"
       }`}
       style={{
+        ["--circle-travel-x" as string]: `clamp(${index * 28}px, ${index * 5}vw, ${index * 82}px)`,
+        animation: isOpenTrigger
+          ? `${
+              isClosingTrigger ? "selected-circle-exit" : "selected-circle-enter"
+            } 620ms cubic-bezier(0.22,1,0.36,1) both`
+          : undefined,
         backgroundColor: tone.background,
-        boxShadow: "inset 0 0 0 1px rgba(5,5,7,0.95)",
-        marginLeft: index === 0 ? 0 : "calc(var(--avatar-overlap) * -1)",
-        width: isFirst ? "var(--avatar-primary)" : "var(--avatar-secondary)",
+        boxShadow: isActive
+          ? "inset 0 0 0 1px rgba(5,5,7,0.95), 0 28px 80px rgba(0,0,0,0.42)"
+          : "inset 0 0 0 1px rgba(5,5,7,0.95)",
+        marginLeft:
+          index === 0 ? 0 : "calc(var(--avatar-overlap) * -1)",
+        width: isActive ? "var(--avatar-primary)" : "var(--avatar-secondary)",
         filter: shouldBlur ? "blur(2.25px)" : "blur(0px)",
-        transform: isHovered ? "scale(1.1)" : "scale(1)",
-        zIndex: total - index,
-        willChange: "transform, filter, opacity",
+        zIndex: isActive ? total + 1 : total - index,
+        willChange: "filter, opacity, width, box-shadow",
       }}
     >
       {hasImage ? (
@@ -74,7 +94,7 @@ function AvatarCircle({
             className="absolute left-1/2 top-[11%] h-[34%] w-[46%] -translate-x-1/2 rounded-[52%_52%_42%_42%/58%_58%_44%_44%]"
             style={{ backgroundColor: tone.hair }}
           />
-          {tone.cap ? (
+          {tone.cap && !hasGraduationCap ? (
             <>
               <div
                 className="absolute left-1/2 top-[7%] h-[22%] w-[50%] -translate-x-1/2 rounded-[52%_52%_44%_44%/62%_62%_38%_38%]"
@@ -85,6 +105,15 @@ function AvatarCircle({
                 style={{ backgroundColor: tone.hair }}
               />
             </>
+          ) : null}
+          {hasGraduationCap ? (
+            <div className="absolute left-1/2 top-[5%] z-10 h-[34%] w-[68%] -translate-x-1/2">
+              <div className="absolute left-1/2 top-[10%] h-[26%] w-[78%] -translate-x-1/2 rotate-[-8deg] rounded-[8%] bg-[#050507] shadow-[0_8px_18px_rgba(0,0,0,0.35)]" />
+              <div className="absolute left-1/2 top-[31%] h-[22%] w-[48%] -translate-x-1/2 rounded-[18%_18%_42%_42%/22%_22%_50%_50%] bg-[#10131a]" />
+              <div className="absolute left-[69%] top-[27%] h-[38%] w-[2px] origin-top rotate-[9deg] bg-[#d9edf6]" />
+              <div className="absolute left-[70%] top-[62%] h-[10%] w-[7%] rounded-full bg-[#d9edf6]" />
+              <div className="absolute left-[49%] top-[20%] h-[9%] w-[9%] -translate-x-1/2 rounded-full bg-[#d9edf6]" />
+            </div>
           ) : null}
           <div
             className="absolute left-1/2 top-[39%] h-[7%] w-[18%] -translate-x-1/2 rounded-full bg-[#d39b72]"
@@ -125,7 +154,28 @@ function AvatarCircle({
           />
         </>
       )}
-    </div>
+      <div
+        className="absolute inset-0 z-30 flex items-center justify-center rounded-full bg-black/34 backdrop-blur-[1px] transition-[opacity,backdrop-filter] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+        style={{
+          opacity: isOpenTrigger ? 1 : 0,
+          pointerEvents: isOpenTrigger ? "auto" : "none",
+        }}
+      >
+        <div
+          className="relative h-[22%] w-[22%] transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
+          style={{
+            transform: isClosingTrigger
+              ? "scale(0.76) rotate(110deg)"
+              : isOpenTrigger
+                ? "scale(1) rotate(0deg)"
+                : "scale(0.68) rotate(-18deg)",
+          }}
+        >
+          <span className="absolute left-1/2 top-1/2 h-[14%] w-full -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-full bg-white/88 shadow-[0_0_18px_rgba(255,255,255,0.22)]" />
+          <span className="absolute left-1/2 top-1/2 h-[14%] w-full -translate-x-1/2 -translate-y-1/2 -rotate-45 rounded-full bg-white/88 shadow-[0_0_18px_rgba(255,255,255,0.22)]" />
+        </div>
+      </div>
+    </button>
   );
 }
 
@@ -134,11 +184,13 @@ export default function CircleStack({
   avatarOverlap,
   avatarPrimary,
   avatarSecondary,
+  activeIndex = 0,
+  isClosingTrigger = false,
+  isolateActive = false,
+  onCircleClick,
   stackShiftX,
   stackShiftY,
 }: CircleStackProps) {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-
   const stackStyle = {
     ["--avatar-primary"]: avatarPrimary,
     ["--avatar-secondary"]: avatarSecondary,
@@ -148,7 +200,7 @@ export default function CircleStack({
   return (
     <div className="relative">
       <div
-        className="relative flex items-center justify-center"
+        className="relative flex items-end justify-center"
         style={{
           ...stackStyle,
           transform: `translateX(${stackShiftX}) translateY(${stackShiftY})`,
@@ -160,8 +212,11 @@ export default function CircleStack({
             tone={tone}
             index={index}
             total={avatars.length}
-            hoveredIndex={hoveredIndex}
-            setHoveredIndex={setHoveredIndex}
+            activeIndex={activeIndex}
+            isClosingTrigger={isClosingTrigger && activeIndex === index}
+            isIsolated={isolateActive}
+            isOpenTrigger={isolateActive && activeIndex === index}
+            onCircleClick={onCircleClick}
           />
         ))}
       </div>
