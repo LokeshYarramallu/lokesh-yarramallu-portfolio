@@ -17,10 +17,37 @@ const montserrat = Montserrat({
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await loadPortfolioContent();
+  const title = "Lokesh Yarramallu | AI Systems Engineer";
+  const description = content.page.description || "Portfolio of Lokesh Yarramallu, specializing in Agentic Systems, MCP, and Hybrid RAG.";
 
   return {
-    title: content.page.title,
-    description: content.page.description,
+    title: {
+      default: title,
+      template: "%s | Lokesh Yarramallu",
+    },
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "https://lokeshyarramallu.com", // update to actual domain if needed
+      siteName: "Lokesh Yarramallu Portfolio",
+      images: [
+        {
+          url: "/opengraph-image.png",
+          width: 1200,
+          height: 630,
+          alt: "Lokesh Yarramallu Portfolio",
+        },
+      ],
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image.png"],
+    },
   };
 }
 
