@@ -14,7 +14,9 @@ import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from
 import CircleStack from "@/components/circle-stack";
 import type { PortfolioContent } from "@/lib/portfolio-content";
 import { PinContainer } from "@/components/ui/3d-pin";
-import { BentoGridThirdDemo } from "./projects/projects-bento";
+import { SkillsShowcase } from "./skills-showcase";
+import { PublicationsCards } from "./publications-cards";
+import { ProjectsShowcase } from "./projects-showcase";
 import { PixelatedCanvas } from "@/components/ui/pixelated-canvas";
 
 type Page2ScrollStoryProps = {
@@ -72,8 +74,8 @@ const ABOUT_CATEGORIES = [
     cards: []
   },
   {
-    title: "Hobbies",
-    icon: "/assets/hobbies-emoji.svg",
+    title: "Research",
+    icon: "/assets/university-svgrepo-com.svg",
     cards: []
   }
 ] as const;
@@ -92,37 +94,39 @@ const EDUCATION_CARD_STYLE = {
 const PROFILE_STATEMENTS = [
   {
     quote:
-      "Research gives the work depth; production gives it discipline.",
-    title: "Operating Style",
+      "Building production-grade AI systems from cutting-edge research.",
+    title: "Mission",
   },
   {
     quote:
-      "Unclear problems feel less like blockers and more like starting points.",
-    title: "Problem Fit",
+      "Multi-agent workflows · MCP architecture · Hybrid RAG pipelines.",
+    title: "Craft",
   },
   {
     quote:
-      "Good AI should reason, recover, remember, and still be usable when the demo is over.",
-    title: "Build Mentality",
+      "From Intel hackathon finalist to shipping AI SaaS at scale.",
+    title: "Journey",
   },
   {
     quote:
-      "Systems matter before spectacle; structure is what lets intelligence keep working.",
-    title: "Engineering Taste",
+      "9.3 CGPA · 4 IEEE publications · Open-source contributor.",
+    title: "Proof Points",
   },
   {
     quote:
-      "The work is most interesting where agents, memory, retrieval, and backend reliability meet.",
-    title: "North Star",
+      "LLMOps · AgentOps · Memory orchestration · System design.",
+    title: "Stack",
   },
   {
     quote:
-      "Calm engineering, curious research, and a bias toward things that can be tested.",
+      "Calm engineering, curious research, and a bias toward things that ship.",
     title: "Working Rhythm",
   },
 ] as const;
 
-export default function Page2ScrollStory({ content }: Page2ScrollStoryProps) {
+export default function Page3ScrollStory({
+  content,
+}: Page2ScrollStoryProps) {
   const avatarCount = content.avatars.length;
   const [activeIndex, setActiveIndex] = useState(-1);
   const [isFirstDockOpen, setIsFirstDockOpen] = useState(false);
@@ -564,21 +568,10 @@ const EXPERIENCE_DATA = [
     ],
   },
   {
-    company: "ACM Student Chapter",
-    role: "AI Lead",
-    date: "May 2024 - May 2025",
-    principles: ["Leadership", "Management", "Mentoring"],
-    description: "Led the AI division, organized workshops, managed committee operations, and mentored students in machine learning technologies.",
-    side: "left" as const,
-    links: [
-      { url: "https://acm-amritapuri.vercel.app/advisorycommittee" },
-    ],
-  },
-  {
     company: "Litmus7",
-    role: "Research And Development Intern",
-    date: "Dec 2025 - Present",
-    principles: ["Research & Development", "Decentralized Systems"],
+    role: "Backend Engineering Intern",
+    date: "Dec 2024 - Present",
+    principles: ["Backend Architecture", "Decentralized Systems"],
     description: "Researching memory-aware semantic routing and decentralized graph search for efficient low-latency discovery in dynamic peer networks.",
     side: "left" as const,
     links: [
@@ -600,12 +593,23 @@ const EXPERIENCE_DATA = [
   {
     company: "Amrita Hospital, Faridabad",
     role: "ML Engineer Intern",
-    date: "Aug 2025 - Dec 2025",
+    date: "Aug 2024 - Dec 2024",
     principles: ["Applied Machine Learning", "Cloud Infrastructure"],
     description: "Managed Django backend deployment on GCP for a dermatology AI platform and built a hybrid multilingual RAG system grounded in clinical knowledge.",
     side: "left" as const,
     links: [
       { url: "https://www.amritahospitals.org/faridabad" }
+    ],
+  },
+  {
+    company: "ACM Student Chapter",
+    role: "AI Lead",
+    date: "May 2024 - May 2025",
+    principles: ["Leadership", "Management", "Mentoring"],
+    description: "Led the AI division, organized workshops, managed committee operations, and mentored students in machine learning technologies.",
+    side: "left" as const,
+    links: [
+      { url: "https://acm-amritapuri.vercel.app/advisorycommittee" },
     ],
   },
   {
@@ -621,15 +625,20 @@ const EXPERIENCE_DATA = [
     ],
   },
   {
-    company: "AmritaCREATE",
-    role: "Project Intern",
-    date: "Apr 2023 - May 2023",
-    principles: ["Social Tech", "Accessibility"],
-    description: "Contributed to the 'Blind Accessibility - Survey' project, a C20 Workgroup aimed to enhance accessibility and inclusivity.",
+    company: "Intel AI For Youth",
+    role: "National Finalist (Top 30)",
+    date: "2021",
+    principles: ["Achievement", "AI Innovation"],
+    description: "Selected as Top 30 National Finalist in Intel's 'AI For Youth' program from thousands of applicants for an innovative smart agriculture solution.",
     side: "left" as const,
-    links: [
-      { url: "https://www.amrita.edu/center/create/" }
-    ],
+  },
+  {
+    company: "MLH Code in the Dark",
+    role: "Winner",
+    date: "2024",
+    principles: ["Achievement", "Frontend Architecture"],
+    description: "Won first place at Major League Hacking's Code in the Dark, demonstrating mastery in blind frontend implementation.",
+    side: "left" as const,
   },
   {
     company: "EpochOn AI Hackathon",
@@ -640,7 +649,6 @@ const EXPERIENCE_DATA = [
     side: "left" as const,
     links: [
       { url: "https://www.epochon.dev/" },
-      { url: "https://www.linkedin.com/posts/lokeshyarramallu_amritaschoolofcomputing-acmamritapuristudentchapter-activity-7272111125855395841-kwcL?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD7s-2UB37GDY-gPhgft09xhoQuzK0wXzF4" }
     ],
     images: [
       "/assets/epochon-1.jpg",
@@ -656,7 +664,6 @@ const EXPERIENCE_DATA = [
     side: "left" as const,
     links: [
       { url: "https://evo-lumin.vercel.app/" },
-      { url: "https://www.linkedin.com/posts/lokeshyarramallu_celebrating-the-success-of-evolumin-a-activity-7263252108194263040-D9OB?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD7s-2UB37GDY-gPhgft09xhoQuzK0wXzF4" }
     ],
     images: [
       "/assets/evolumin-1.jpg",
@@ -674,43 +681,10 @@ const EXPERIENCE_DATA = [
     links: [
       { url: "https://www.amrita.edu/events/olabs-hackathon/" },
       { url: "https://olabs-hackathon.devfolio.co/" },
-      { url: "https://www.linkedin.com/posts/sanjit-teja_olabshackathon2025-innovation-hackathon-ugcPost-7304514079539310592-w4mL?utm_source=share&utm_medium=member_desktop&rcm=ACoCoAAD7s-2UB37GDY-gPhgft09xhoQuzK0wXzF4" }
     ],
     images: [
       "/assets/olabs-1.jpg",
       "/assets/olabs-2.jpg"
-    ]
-  },
-  {
-    company: "ICPC Regional Finals",
-    role: "Volunteer Head (Logistics)",
-    date: "2024",
-    principles: ["Logistics Management", "Hospitality"],
-    description: "Managed large-scale hospitality and infrastructure operations for the International Collegiate Programming Contest (ICPC) regionals for elite global participants.",
-    side: "left" as const,
-  },
-  {
-    company: "Technical Workshops",
-    role: "Workshop Organizer",
-    date: "2024 - Present",
-    principles: ["Technical Mentorship", "Teaching"],
-    description: "Organized and led multiple technical workshops within the university covering a wide array of advanced topics including Machine Learning, Deep Learning, local LLMs (Ollama), and Agentic AI.",
-    side: "left" as const,
-  },
-  {
-    company: "Student Social Responsibility",
-    role: "Cybersecurity Project Lead",
-    date: "2024",
-    principles: ["Community Awareness", "Cybersecurity"],
-    description: "Directed a community initiative educating 100+ students on digital safety through interactive assessments and practical cybersecurity awareness.",
-    side: "left" as const,
-    links: [
-      { url: "https://www.linkedin.com/posts/lokeshyarramallu_cybersecurityawareness-ssrproject-digitalsafety-activity-7263448547734298624-17bs?utm_source=share&utm_medium=member_desktop&rcm=ACoAAD7s-2UB37GDY-gPhgft09xhoQuzK0wXzF4" }
-    ],
-    images: [
-      "/assets/ssr-1.jpg",
-      "/assets/ssr-2.jpg",
-      "/assets/ssr-3.jpg"
     ]
   },
 ];
@@ -1048,7 +1022,7 @@ function ContactPinCard({ isClosing }: { isClosing: boolean }) {
         } 620ms cubic-bezier(0.22,1,0.36,1) both`,
       }}
     >
-      <PinContainer title="Contact Me" href="mailto:lokesh@example.com">
+      <PinContainer title="Get In Touch" href="mailto:vsn.lokesh.yarramallu@gmail.com">
         <div className="flex basis-full flex-col p-4 tracking-tight text-slate-100/50 w-[min(78vw,300px)] h-auto rounded-[28px] border border-white/18 bg-[#0b0f18]/90 backdrop-blur-xl shadow-[0_35px_90px_rgba(0,0,0,0.38)]">
           <p className="mb-4 inline-flex self-start rounded-full border border-cyan-200/20 bg-cyan-200/10 px-3 py-1 text-[0.64rem] font-semibold uppercase tracking-[0.18em] text-cyan-100/86">
             Contact
@@ -1060,18 +1034,26 @@ function ContactPinCard({ isClosing }: { isClosing: boolean }) {
             Open to AI engineering roles, backend systems, agentic workflows,
             and production-focused collaborations.
           </p>
+          <div className="mt-4 flex items-center gap-2 text-xs text-white/40">
+            <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Rajamahendravaram, Andhra Pradesh
+          </div>
           <div className="mt-5 flex flex-col justify-center gap-2 rounded-2xl bg-[radial-gradient(circle_at_20%_20%,rgba(165,243,252,0.12),transparent_32%),linear-gradient(135deg,rgba(20,184,166,0.16),rgba(59,130,246,0.18)_52%,rgba(15,23,42,0.92))] p-3 border border-white/10">
             <a href="https://github.com/LokeshYarramallu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl bg-black/40 px-4 py-2.5 font-medium text-white transition-colors hover:bg-black/60 border border-white/5 hover:border-white/20">
               <svg className="h-5 w-5 text-cyan-100" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.022A9.606 9.606 0 0112 6.82c.85.004 1.705.114 2.504.336 1.909-1.29 2.747-1.022 2.747-1.022.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.161 22 16.416 22 12c0-5.523-4.477-10-10-10z"/></svg>
               GitHub
             </a>
-            <a href="https://linkedin.com/in/lokesh-yarramallu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl bg-black/40 px-4 py-2.5 font-medium text-white transition-colors hover:bg-black/60 border border-white/5 hover:border-white/20">
+            <a href="https://linkedin.com/in/lokeshyarramallu" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-xl bg-black/40 px-4 py-2.5 font-medium text-white transition-colors hover:bg-black/60 border border-white/5 hover:border-white/20">
               <svg className="h-5 w-5 text-cyan-100" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
               LinkedIn
             </a>
+            <a href="tel:+917095419591" className="flex items-center gap-3 rounded-xl bg-black/40 px-4 py-2.5 font-medium text-white transition-colors hover:bg-black/60 border border-white/5 hover:border-white/20">
+              <svg className="h-5 w-5 text-cyan-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              +91 7095419591
+            </a>
           </div>
-          <a href="mailto:lokesh@example.com" className="mt-5 inline-flex text-sm font-semibold text-cyan-100 transition-colors hover:text-white">
-            lokesh@example.com
+          <a href="mailto:vsn.lokesh.yarramallu@gmail.com" className="mt-5 inline-flex text-sm font-semibold text-cyan-100 transition-colors hover:text-white">
+            vsn.lokesh.yarramallu@gmail.com
           </a>
         </div>
       </PinContainer>
@@ -1082,20 +1064,15 @@ function ContactPinCard({ isClosing }: { isClosing: boolean }) {
 function ProjectsFullscreenCard({ isClosing }: { isClosing: boolean }) {
   return (
     <div
-      className="pointer-events-auto absolute bottom-[clamp(24px,8vw,104px)] left-[clamp(200px,28vw,350px)] right-[clamp(24px,8vw,104px)] top-[clamp(24px,8vw,104px)] z-20 flex origin-left overflow-y-auto [&::-webkit-scrollbar]:hidden"
+      className="pointer-events-auto absolute bottom-[clamp(24px,8vw,104px)] left-[clamp(200px,28vw,350px)] right-[clamp(24px,8vw,104px)] top-[clamp(24px,8vw,104px)] z-20 flex origin-left items-center justify-center rounded-[32px] border border-white/10 bg-black/40 shadow-[0_35px_90px_rgba(0,0,0,0.38)] backdrop-blur-2xl"
       style={{
         animation: `${
           isClosing ? "projects-card-exit" : "projects-card-enter"
         } 620ms cubic-bezier(0.22,1,0.36,1) both`,
       }}
     >
-      <div className="flex flex-col items-center justify-center text-center mt-32">
-        <h2 className="text-3xl font-semibold tracking-tight text-white/90">
-          Projects Sandbox
-        </h2>
-        <p className="mt-2 text-sm text-cyan-200/50 uppercase tracking-widest">
-          Awaiting Layout Specs
-        </p>
+      <div className="w-full h-full p-6 md:p-10 flex items-center justify-center">
+        <ProjectsShowcase />
       </div>
     </div>
   );
@@ -1206,15 +1183,23 @@ function VerticalSectionDock({ isClosing }: { isClosing: boolean }) {
       <AnimatePresence mode="wait">
         {selectedCategory?.title === "Skills" ? (
           <motion.div 
-            key="skills-bento"
+            key="skills-showcase"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
-            className="fixed top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-auto overflow-visible"
+            className="fixed top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-auto overflow-visible w-[90vw] max-w-5xl"
           >
-            <div className="scale-[0.8] md:scale-100 origin-center">
-              <BentoGridThirdDemo />
-            </div>
+            <SkillsShowcase />
+          </motion.div>
+        ) : selectedCategory?.title === "Research" ? (
+          <motion.div 
+            key="publications-cards"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] pointer-events-auto overflow-visible w-[90vw] max-w-2xl"
+          >
+            <PublicationsCards />
           </motion.div>
         ) : activeCards.length > 0 ? (
           <motion.div 
